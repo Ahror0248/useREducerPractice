@@ -1,37 +1,15 @@
-import { createStore, applyMiddleware } from "redux";
-import logger from "redux-logger";
+import ReactDom from "react-dom";
+import App from "./App";
+import { Provider } from "react-redux";
+import store from './store'
 
 
-function reducer(action, state){
-
-  switch(action.type){
-    case 'SET-COUNT':
-      state = {...state, count: action.payload}
-      break
-      case 'SET-NAME': 
-      state = {...state, name: action.payload}
-      default: return state
-  }
-  
-  
-  return state
-}
 
 
-const store = createStore(reducer, {
-  count: 0,
-  name: 'Ahrorbek'
-}, applyMiddleware(logger))
+ReactDom.render(
+  <Provider store={store}>
+    <App />
+  </Provider>,
 
-
-store.subscribe(()=>{
- console.log(store.getState())
-})
-
-store.dispatch({type:'SET-COUNT', payload: 1000})
-// store.dispatch({type:'SET-COUNT', payload: 300})
-// store.dispatch({type:'SET-COUNT', payload: 1200})
-store.dispatch({type:'SET-NAME', payload: 'Abdulloh'})
-store.dispatch({type:'SET-NAME', payload: 'Asadbek'})
-
-// console.log(store.getState());
+  document.getElementById("root")
+);

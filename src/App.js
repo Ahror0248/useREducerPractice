@@ -1,61 +1,36 @@
-import { useReducer } from "react";
 import "./App.css";
+import {connect} from 'react-redux'
+import {setName} from './actions/userAction'
 
-function App() {
-  function reducer(state, action) {
-    switch (action.type) {
-      case "setcount":
-        state = {
-          ...state,
-          count: state.count + 1,
-        };
-        break;
-      case "setcountMinus":
-        state = {
-          ...state,
-          count: state.count - 1,
-        };
-        break;
-      case "setname":
-        state = {
-          ...state,
-          name: "Mahamadaminov",
-        };
-        break;
-    }
 
-    return state;
-  }
+function App(props) {
+  console.log(props);
 
-  const [state, dispatch] = useReducer(reducer, {
-    count: 0,
-    status: "student",
-    name: "Ahrorbek",
-    results: "active",
-  });
-
-  function setCount() {
-    dispatch({ type: "setcount" });
-  }
-
-  function setCountMinus() {
-    dispatch({ type: "setcountMinus" });
-  }
-
-  function setName() {
-    dispatch({ type: "setname" });
+  function btnClicked(){
+    props.setName('Fayzullo')
   }
 
   return (
-    <div className="app">
-      <button onClick={setCount}>+</button>
-      <p>{state.count}</p>
-      <button onClick={setCountMinus}>-</button>
+  <div className="app">
+    <h1>{props.userName}</h1>
+    <button onClick={btnClicked}>changeName</button>
+  </div>
+  )}
 
-      <p>{state.name}</p>
-      <button onClick={setName}>changeName</button>
-    </div>
-  );
-}
+  function mapStateToProps(state){
+    return {
+      userName: state.userReducer.name
+    }
+  }
 
-export default App;
+  function mapDispatchToProps(dispatch){
+    return{
+      setName: (name)=>{
+        dispatch(setName(name))
+      }
+    }
+  }
+
+  const a = connect(mapStateToProps, mapDispatchToProps)
+
+export default a(App);
